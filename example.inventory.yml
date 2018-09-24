@@ -1,0 +1,6 @@
+
+all:
+  hosts:
+    example-host-name:
+      ansible_host: "10.11.12.13"
+      ansible_user: root

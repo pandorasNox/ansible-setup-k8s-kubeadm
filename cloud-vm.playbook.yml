@@ -1,0 +1,12 @@
+---
+
+- hosts: all
+  pre_tasks:
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || ( apt update && apt install python -y )
+      register: output
+      changed_when: output.stdout != ""
+    - setup: # aka gather_facts
+  roles:
+    - role: docker
+  serial: 1
