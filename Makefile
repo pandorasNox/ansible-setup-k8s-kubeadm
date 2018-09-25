@@ -22,4 +22,4 @@ setup: ##setup installs ansible vendor roles
 deploy: ##deploy runs ansible against inventory
 	# ANSIBLE_ROLES_PATH=./ansible_vendor <= not neccessary bec of ansible.cfg
 	# ANSIBLE_ROLES_PATH=./ansible_vendor ansible-playbook cloud-vm.playbook.yml
-	ANSIBLE_ROLES_PATH=./ansible_vendor ansible-playbook cloud-vm.playbook.yml
+	ansible-playbook cloud-vm.playbook.yml
