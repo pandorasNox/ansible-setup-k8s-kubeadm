@@ -9,4 +9,7 @@
     - setup: # aka gather_facts
   roles:
     - role: docker
+    - role: ensure-requirements
+    - role: install-kubeadm-kubelet-kubectl
+    - role: weave
   serial: 1

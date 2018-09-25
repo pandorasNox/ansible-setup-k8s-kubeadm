@@ -1,0 +1,26 @@
+
+- name: install apt-transport-https & curl
+  raw: apt-get update && apt-get install -y apt-transport-https curl
+
+- name: add a key to sign kubadm, kubelet & kubectl releases to apt-key, instruct apt to trust packages signed by that key
+  raw: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+- name: add k8s source list file
+  copy:
+    src: etc/apt/sources.list.d/kubernetes.list
+    dest: /etc/apt/sources.list.d/kubernetes.list
+    # mode: 0755
+
+# - name: Update apt packages
+#   become: true
+#   apt:
+#     upgrade: no
+#     update_cache: yes
+#     cache_valid_time: 86400 #One day
+
+- name: install kubeadm, kubelet, kubectl
+  raw: "apt-get update && apt-get -y install kubeadm={{ kubeadm_version }} kubelet={{ kubelet_version }} kubectl={{ kubectl_version }}"
+
+- name: hold the packages so they don't get updated
+  raw: apt-mark hold kubelet kubeadm kubectl
+

@@ -1,0 +1,4 @@
+
+---
+- name: disable swap
+  raw: swapoff -a; sed -i '/ swap / s/^/#/' /etc/fstab

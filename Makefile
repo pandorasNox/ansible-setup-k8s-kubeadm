@@ -16,7 +16,10 @@ cli: ##@development cli with ansible
 .PHONY: setup
 setup: ##setup installs ansible vendor roles
 	ansible-galaxy install -p ./ansible_vendor -r ./requirements.yml
+	cp example.inventory.yml inventory.yml
 
 .PHONY: deploy
 deploy: ##deploy runs ansible against inventory
-	ansible-playbook cloud-vm.playbook.yml
+	# ANSIBLE_ROLES_PATH=./ansible_vendor <= not neccessary bec of ansible.cfg
+	# ANSIBLE_ROLES_PATH=./ansible_vendor ansible-playbook cloud-vm.playbook.yml
+	ANSIBLE_ROLES_PATH=./ansible_vendor ansible-playbook cloud-vm.playbook.yml

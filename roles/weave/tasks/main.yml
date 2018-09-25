@@ -1,0 +1,4 @@
+
+---
+- name: prepare pod network
+  raw: sysctl net.bridge.bridge-nf-call-iptables=1
