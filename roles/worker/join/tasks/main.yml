@@ -1,0 +1,14 @@
+
+---
+- name: Reset Kubernetes component
+  shell: "kubeadm reset --force"
+  register: reset_cluster
+
+- name: Join to Kubernetes cluster
+  when: reset_cluster is succeeded
+  shell: |
+    kubeadm join --ignore-preflight-errors=all \
+                 --token {{ hostvars[groups['master'][0]]['kubeadm_token'] }} \
+                 {{ hostvars[groups['master'][0]]['ansible_host'] }}:6443 \
+                 --discovery-token-unsafe-skip-ca-verification
+  register: join_cluster

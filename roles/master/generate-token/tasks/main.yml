@@ -1,0 +1,13 @@
+
+---
+- name: generate token output
+  shell: kubeadm token generate
+  register: kubeadm_token_gen
+  # changed_when: false
+  # delegate_to: localhost
+  run_once: true
+
+- name: "set kubeadm_token variable"
+  set_fact:
+    kubeadm_token: "{{ kubeadm_token_gen.stdout }}"
+  run_once: true

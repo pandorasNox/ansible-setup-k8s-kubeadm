@@ -23,3 +23,20 @@ deploy: ##deploy runs ansible against inventory
 	# ANSIBLE_ROLES_PATH=./ansible_vendor <= not neccessary bec of ansible.cfg
 	# ANSIBLE_ROLES_PATH=./ansible_vendor ansible-playbook cloud-vm.playbook.yml
 	ansible-playbook cloud-vm.playbook.yml
+
+.PHONY: nodes
+nodes: ##deploy runs ansible against inventory
+	ansible-playbook nodes.playbook.yml
+
+.PHONY: master
+master: ##deploy runs ansible against inventory
+	ansible-playbook master.playbook.yml
+
+.PHONY: k8s
+k8s: ##deploy runs ansible against inventory
+	$(MAKE) nodes
+	$(MAKE) master
+
+.PHONY: test
+test: ##deploy runs ansible against inventory
+	ansible-playbook test.playbook.yml

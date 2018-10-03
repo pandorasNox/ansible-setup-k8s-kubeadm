@@ -6,3 +6,9 @@ kubeadm_base_tooling_version: 1.11.3-00
 kubelet_version: "{{ kubeadm_base_tooling_version }}"
 kubectl_version: "{{ kubeadm_base_tooling_version }}"
 kubeadm_version: "{{ kubeadm_base_tooling_version }}"
+
+# Any other additional opts you want to add..
+kubeadm_opts: '--ignore-preflight-errors=cri'
+# For example:
+# kubeadm_opts: '--apiserver-cert-extra-sans "k8s.domain.com,kubernetes.domain.com"'
+

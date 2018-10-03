@@ -1,0 +1,5 @@
+
+---
+- name: place kubectl config
+  raw: mkdir -p $HOME/.kube/; cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+

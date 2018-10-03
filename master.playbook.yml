@@ -1,0 +1,19 @@
+
+---
+
+- hosts: master
+  roles:
+    - role: master/generate-token
+    - role: master/init
+    - role: master/place-kubectl-config
+  serial: 1
+
+- hosts: worker
+  roles:
+    - role: worker/join
+  serial: "100%"
+
+- hosts: master
+  roles:
+    - role: master/init-weave-pod-network
+  serial: 1

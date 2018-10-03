@@ -1,0 +1,22 @@
+
+---
+
+- hosts: all
+  pre_tasks:
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || ( apt update && apt install python -y )
+      register: output
+      changed_when: output.stdout != ""
+    - setup: # aka gather_facts
+  #   - name: create etcd certificates
+  #     import_role:
+  #       name: etcd-certificates
+  #     delegate_to: localhost
+  #     run_once: true
+  roles:
+    - role: docker
+    - role: nodes/disable-swap
+    - role: nodes/install-kubeadm-kubelet-kubectl
+    - role: nodes/prepare-cni-iptables
+  # how many hosts process parallel
+  serial: "100%"

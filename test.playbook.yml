@@ -1,0 +1,13 @@
+
+---
+
+- hosts: master
+  tasks:
+  - set_fact: my_global_var='hello'
+
+- hosts: worker
+  tasks:
+  # - shell: echo {{my_global_var}}
+  - debug:
+    msg: "{{ hostvars[groups['master'][0]]['my_global_var'] }}"
+

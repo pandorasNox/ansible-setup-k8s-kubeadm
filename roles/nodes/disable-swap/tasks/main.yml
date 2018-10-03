@@ -1,0 +1,15 @@
+
+---
+# - name: disable swap
+#   raw: swapoff -a; sed -i '/ swap / s/^/#/' /etc/fstab
+
+- name: Disable system swap
+  shell: "swapoff -a"
+
+- name: Remove current swaps from fstab
+  lineinfile:
+    dest: /etc/fstab
+    regexp: '(?i)^([^#][\S]+\s+(none|swap)\s+swap.*)'
+    line: '# \1'
+    backrefs: yes
+    state: present

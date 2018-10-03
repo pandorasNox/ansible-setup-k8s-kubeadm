@@ -1,0 +1,21 @@
+
+---
+
+- name: Reset Kubernetes component
+  shell: "kubeadm reset --force"
+  register: reset_cluster
+
+- name: delete kubectl config
+  raw: rm -f $HOME/.kube/config
+
+# - name: Display all hostvars
+#   debug:
+#     msg: "{{ hostvars[groups['master'][0]]['ansible_host'] }}"
+
+- name: Init Kubernetes cluster
+  when: reset_cluster is succeeded
+  shell: |
+    kubeadm init --token {{ kubeadm_token }} \
+                 --apiserver-advertise-address {{ hostvars[groups['master'][0]]['ansible_host'] }} \
+                 {{ kubeadm_opts }}
+  register: init_cluster
