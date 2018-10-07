@@ -4,3 +4,7 @@
 `make setup`
 
 `make deploy`
+
+#### todo
+- https://github.com/kubernetes/kubeadm/issues/659
+
