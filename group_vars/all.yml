@@ -1,7 +1,7 @@
 
 ---
 
-kubeadm_base_tooling_version: 1.11.3-00
+kubeadm_base_tooling_version: 1.11.10-00
 
 kubelet_version: "{{ kubeadm_base_tooling_version }}"
 kubectl_version: "{{ kubeadm_base_tooling_version }}"
