@@ -18,6 +18,14 @@
 #     update_cache: yes
 #     cache_valid_time: 86400 #One day
 
+- name: Gather package facts
+  package_facts:
+    manager: auto
+
+- name: unhold the packages so they can get updated
+  raw: apt-mark unhold kubelet kubeadm kubectl
+  when: '"kubelet" in ansible_facts.packages and "kubeadm" in ansible_facts.packages and "kubectl" in ansible_facts.packages'
+
 - name: install kubeadm, kubelet, kubectl
   raw: "apt-get update && apt-get -y install kubeadm={{ kubeadm_version }} kubelet={{ kubelet_version }} kubectl={{ kubectl_version }}"
 
