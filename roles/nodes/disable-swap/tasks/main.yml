@@ -1,15 +1,31 @@
 
 ---
-# - name: disable swap
-#   raw: swapoff -a; sed -i '/ swap / s/^/#/' /etc/fstab
+# - name: Remove current swaps from fstab
+#   lineinfile:
+#     dest: /etc/fstab
+#     regexp: '(?i)^([^#][\S]+\s+(none|swap)\s+swap.*)'
+#     line: '# \1'
+#     backrefs: yes
+#     state: present
 
-- name: Disable system swap
-  shell: "swapoff -a"
+# ===
+# @see https://github.com/kubernetes-sigs/kubespray/blob/88d919337ed226a9ed5136ae3afb9c73bc08874a/roles/kubernetes/preinstall/tasks/0010-swapoff.yml
 
-- name: Remove current swaps from fstab
-  lineinfile:
-    dest: /etc/fstab
-    regexp: '(?i)^([^#][\S]+\s+(none|swap)\s+swap.*)'
-    line: '# \1'
-    backrefs: yes
-    state: present
+- name: Remove swapfile from /etc/fstab
+  mount:
+    name: "{{ item }}"
+    fstype: swap
+    state: absent
+  with_items:
+    - swap
+    - none
+
+# kubelet fails even if ansible_swaptotal_mb = 0
+- name: check swap
+  command: /sbin/swapon -s
+  register: swapon
+  changed_when: no
+- name: Disable swap
+  command: /sbin/swapoff -a
+  when: swapon.stdout
+
