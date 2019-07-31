@@ -2,3 +2,5 @@
 # from GitHub
 - src: https://github.com/pandorasnox/ansible-role-docker
   name: docker
+  # version => git tag
+  version: "0.1-18.03.1-ce-stable"
